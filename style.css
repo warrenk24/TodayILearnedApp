@@ -182,6 +182,10 @@ ul {
     flex-grow: 1;
 }
 
+.hidden {
+    display: none !important;
+}
+
 /** Media Q's ******************************************/
 
 @media (max-width: 1200px) {
