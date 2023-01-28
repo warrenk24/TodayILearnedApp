@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/TodayILearnedApp/static/css/main.124f7c8c.css",
+    "main.js": "/TodayILearnedApp/static/js/main.93077fec.js",
+    "index.html": "/TodayILearnedApp/index.html",
+    "main.124f7c8c.css.map": "/TodayILearnedApp/static/css/main.124f7c8c.css.map",
+    "main.93077fec.js.map": "/TodayILearnedApp/static/js/main.93077fec.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.124f7c8c.css",
+    "static/js/main.93077fec.js"
+  ]
+}
