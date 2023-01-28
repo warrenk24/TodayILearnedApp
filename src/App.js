@@ -1,6 +1,7 @@
 // import { setegid } from "process";
 // import { func } from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import supabase from "./supabase";
 import "./style.css";
 
 const initialFacts = [
@@ -39,18 +40,44 @@ const initialFacts = [
 
 function App() {
   const [showForm, setShowForm] = useState(false);
-  const [facts, setFacts] = useState(initialFacts);
+  const [facts, setFacts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState("all");
+
+let query = supabase.from("facts")
+.select("*")
+
+  if (currentCategory !== 'all') query = query.eq('category', currentCategory)
+
+  useEffect(function () {
+    async function getFacts() {
+      setIsLoading(true);
+      const { data: facts, error } = await query.order("votesInteresting", { ascending: false })
+        .limit(1000);
+      if (!error) setFacts(facts);
+      else alert("There was a problem getting data");
+      setIsLoading(false);
+    }
+    getFacts();
+  }, [currentCategory]);
+
   return (
     <>
       <Header showForm={showForm} setShowForm={setShowForm} />
-      {showForm ? <NewFactForm setFacts={setFacts} setShowForm={setShowForm}/> : null}
+      {showForm ? (
+        <NewFactForm setFacts={setFacts} setShowForm={setShowForm} />
+      ) : null}
 
       <main className="main">
-        <CategoryFilter />
-        <FactList facts={facts} />
+        <CategoryFilter setCurrentCategory={setCurrentCategory} />
+        {isLoading ? <Loader /> : <FactList facts={facts} />}
       </main>
     </>
   );
+}
+
+function Loader() {
+  return <p className="message">Loading...</p>;
 }
 
 function Header({ showForm, setShowForm }) {
@@ -114,13 +141,13 @@ function NewFactForm({ setFacts, setShowForm }) {
       };
 
       //add the new fact to UI
-      setFacts((facts) => [newFact, ...facts])
+      setFacts((facts) => [newFact, ...facts]);
       //reset input fields
-      setText('')
-      setSource('')
-      setCategory('')
+      setText("");
+      setSource("");
+      setCategory("");
       //close form
-      setShowForm(false)
+      setShowForm(false);
     }
   }
 
@@ -152,19 +179,18 @@ function NewFactForm({ setFacts, setShowForm }) {
   );
 }
 
-function CategoryFilter() {
+function CategoryFilter({ setCurrentCategory }) {
   return (
     <aside>
       <ul>
         <li className="category">
-          <button className="btn btn-all-categories">All</button>
+          <button className="btn btn-all-categories" onClick={() => setCurrentCategory('all')}>All</button>
         </li>
         {CATEGORIES.map((cat) => (
           <li key={cat.name} className="category">
             <button
               className="btn btn-category"
-              style={{ backgroundColor: cat.color }}
-            >
+              style={{ backgroundColor: cat.color }} onClick={() => setCurrentCategory(cat.name)}>
               {cat.name}
             </button>
           </li>
@@ -175,6 +201,8 @@ function CategoryFilter() {
 }
 
 function FactList({ facts }) {
+  if (facts.length === 0) <p className="message">No facts for this category yet! Create the first one</p>
+
   return (
     <section>
       <ul className="facts-list">
