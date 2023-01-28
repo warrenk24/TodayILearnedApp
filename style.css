@@ -8,11 +8,10 @@ body {
     color: #fafaf9;
     background-color: #292524;
     font-family: "Sono", sans-serif;
-    padding: 40px 64px 0px;
+    padding: 40px 64px;
 }
 /** Main layout ******************************************/
-#root {
-   
+.container {
     max-width: 1500px;
     margin: 0 auto;
 }
@@ -34,15 +33,9 @@ body {
     
 }
 .main {
-    height: calc(100vh - 48px - 68px - 40px);
     display: grid;
     grid-template-columns: 250px 1fr;
     column-gap: 60px;
-}
-
-section {
-    overflow-y: scroll;
-    padding-bottom: 40px;
 }
 /** Elements ******************************************/
 .logo img {
@@ -161,9 +154,6 @@ ul {
     background-color: #292524;
 }
 
-.vote-buttons button:disabled {
-    background-color: #292524;
-}
 /** Form styles ******************************************/
 
 .fact-form input, .fact-form select{
@@ -196,18 +186,6 @@ ul {
     display: none !important;
 }
 
-.message {
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 32px;
-    font-weight: 600;
-    margin-top: 24px;
-}
-.disputed {
-    color: #ef4444;
-    font-weight: 600;
-    margin-right: 10px;
-}
 /** Media Q's ******************************************/
 
 @media (max-width: 1200px) {
@@ -220,9 +198,9 @@ ul {
 }
 
 @media (max-width: 1000px) {
-    /* body {
+    body {
         padding: 32px 48px;
-    } */
+    }
     .fact-form {
         flex-direction: column;
         align-items: stretch;
@@ -236,7 +214,6 @@ ul {
 @media (max-width: 900px) {
     .main {
         grid-template-columns: 1fr;
-        height: auto;
     }
 
 }

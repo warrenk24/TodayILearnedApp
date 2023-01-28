@@ -58,6 +58,7 @@ function Header({ showForm, setShowForm }) {
   return (
     <header className="header">
       <div className="logo">
+        <img src="images/logo.png" alt="Text message logo" />
         <h1>Today I Learned</h1>
       </div>
       <button
